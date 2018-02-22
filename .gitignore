@@ -1,0 +1,12 @@
+*.DS_Store
+*.fa
+*.gz
+*.bam
+*.log
+*.result
+hs38*
+*._*
+*.class
+*.jar
+db
+target

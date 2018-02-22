@@ -115,7 +115,7 @@ fi
 if [ -z "${contigs_list}" ]; then
     contigs_list="$(pwd -P)/hla_contigs.txt"
 fi
-if [ ! -f "${contings_list}" ]; then
+if [ ! -f "${contigs_list}" ]; then
     echo "Cannot find hla contigs list"
     exit 1
 fi

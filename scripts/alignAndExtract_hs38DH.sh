@@ -84,7 +84,7 @@ bam_path=$2
 
 merged_hla_panel=$kourami_db/All_FINAL_with_Decoy.fa.gz
 bam_for_kourami=$sampleid\_on_KouramiPanel.bam
-parallel_bit=$(which parallel)
+parallel_bin=$(which parallel)
 samtools_bin=`(which samtools)`
 bwa_bin=`(which bwa)`
 bamUtil=`(which bam)`

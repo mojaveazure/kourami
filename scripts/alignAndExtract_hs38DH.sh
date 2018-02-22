@@ -124,6 +124,7 @@ if [ ! -f "$grch38_HLA_NoAlt_index" ];then
 fi
 
 echo ">>>>>>>>>>>>>>>> extracting reads mapping to HLA loci and ALT contigs (38DH)"
+echo $(date)
 set -x; $samtools_bin view ${reference} -b $bam_path chr6:29723340-29727296 chr6:29726601-29749049 chr6:29826979-29831122 \
 chr6:29887760-29891080 chr6:29942470-29945884 chr6:30005971-30009956 chr6:30259562-30266951 \
 chr6:30489406-30494205 chr6:31268749-31272136 chr6:31353866-31357245 chr6:31399784-31415316 \
@@ -143,10 +144,12 @@ fi
 
 
 echo ">>>>>>>>>>>>>> indexing extracted bam (38DH)"
+echo $(date)
 $samtools_bin index $sampleid.tmp.extract.bam
 
 
 echo ">>>>>>>>>>>>>> bamUtil fastq extraction (38DH)"
+echo $(date)
 $bamUtil bam2FastQ --in $sampleid.tmp.extract.bam --gzip --firstOut $sampleid\_tmp.extract_1.fq.gz --secondOut $sampleid\_tmp.extract_2.fq.gz --unpairedOut $sampleid\_tmp.extract.unpaired.fq.gz &> /dev/null
 
 OUT=$?
@@ -158,6 +161,7 @@ else
 fi
 
 echo ">>>>>>>>>>>>>> Mapping back to GRCh38_NoALT_wHLA (38DH_NoAlt)"
+echo $(date)
 $bwa_bin mem -t $num_processors $grch38_HLA_NoAlt $sampleid\_tmp.extract_1.fq.gz $sampleid\_tmp.extract_2.fq.gz | $samtools_bin view -Sb - | $samtools_bin sort --thread $num_processors -m $samtools_sort_memory_per_thread -O BAM - > $sampleid\_tmp.extract_on_grch38.bam
 
 OUT=$?
@@ -192,9 +196,11 @@ fi
 #rm $sampleid.tmp.extract*
 
 echo ">>>>>>>>>>>>>> indexing extracted bam (38DH_NoAlt)"
+echo $(date)
 $samtools_bin index $sampleid.extract.bam
 
 echo ">>>>>>>>>>>>>> bamUtil fastq extraction (38DH_NoAlt)"
+echo $(date)
 $bamUtil bam2FastQ --in $sampleid.extract.bam --gzip --firstOut $sampleid\_extract_1.fq.gz --secondOut $sampleid\_extract_2.fq.gz --unpairedOut $sampleid\_extract.unpaired.fq.gz &> /dev/null
 
 OUT=$?
@@ -206,6 +212,7 @@ else
 fi
 
 echo ">>>>>>>>>>>>>> bwa mem to hla panel for Kourami "
+echo $(date)
 $bwa_bin mem -t $num_processors $merged_hla_panel $sampleid\_extract_1.fq.gz $sampleid\_extract_2.fq.gz | $samtools_bin view -Sb - > $bam_for_kourami
 OUT=$?
 if [ ! $OUT -eq 0 ];then
